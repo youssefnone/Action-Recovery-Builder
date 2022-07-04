@@ -46,14 +46,10 @@ jobs:
     - name: Check Out
       uses: actions/checkout@v2
     # Cleanup The Actions Workspace Using Custom Composite Run Actions
-    - name: Cleanup Files
+    - name: Prepare the environment
       uses: rokibhasansagar/slimhub_actions@main
       # That's it! Now use your normal steps
-      
-    - name: Prepare the environment
       run: |
-        sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/sudo apt/sources.list.d
-        sudo apt -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
         sudo apt -y autoremove --purge
         sudo apt -y autoclean
         sudo apt clean
