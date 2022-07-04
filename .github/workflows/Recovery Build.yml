@@ -1,4 +1,4 @@
-name: Normal
+name: Recovery Build
 
 on:
   workflow_dispatch:
