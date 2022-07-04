@@ -39,7 +39,7 @@ on:
 jobs:
   build:
     if: github.event.repository.owner.id == github.event.sender.id
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
     steps:
     # You might want to Checkout your repo first, but not mandatory
