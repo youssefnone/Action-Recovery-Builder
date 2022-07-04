@@ -6,6 +6,9 @@ Support OFRP, SHRP, TWRP compilation and production
 
 ## Release Notes
 ```
+= 2022/07/04
+- Updated to work with Android 12.1 AOSP minimal TWRP manifest
+
 = 2022/05/29
 - Should work correctly with Android 11 based source code
 
@@ -27,14 +30,14 @@ Support OFRP, SHRP, TWRP compilation and production
 
 | Name | Description | Example |
 | ------------ | -------------------- | ------------ |
-| `MANIFEST_TYPE` | Source Type | omni |
-| `MANIFEST_URL` | Source address | https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git |
-| `MANIFEST_BRANCH` | Source branch | twrp-9.0 |
-| `DEVICE_TREE_URL` | Device address | https://github.com/azwhikaru/twrp_device_xiaomi_archytas |
-| `DEVICE_TREE_BRANCH` | Device branch | twrp-9.0 |
-| `DEVICE_PATH` | Device location | device/xiaomi/Archytas |
-| `DEVICE_NAME` | Model name | Archytas |
-| `BUILD_TARGET` | Build Target (boot/recovery/vendorboot) | recovery |
+| `MANIFEST_URL` | Source address | https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git |
+| `MANIFEST_BRANCH` | Source branch | twrp-12.1 |
+| `DEVICE_TREE_URL` | Device address | https://github.com/TeamWin/android_device_asus_I001D |
+| `DEVICE_TREE_BRANCH` | Device branch | android-12.1 |
+| `DEVICE_PATH` | Device location | device/asus/I001D |
+| `DEVICE_NAME` | Model name | I001D |
+| `MAKEFILE_NAME` | Makefile name | twrp_I001D |
+| `BUILD_TARGET` | Build Target Partition (boot/recovery/vendorboot) | boot |
 
 -----
 
@@ -46,7 +49,7 @@ For example, your username is: Fun-114514
 ![](https://i.bmp.ovh/imgs/2021/10/6b6ed9f29e732372.png)
 #### 2. After waiting for the automatic redirection, you will see your own username
 ![](https://i.bmp.ovh/imgs/2021/10/66cfe324c0ebb69b.png)
-#### 3. Click'Actions-Make Recovery'
+#### 3. Click'Actions-Recovery Build'
 ![](https://i.bmp.ovh/imgs/2021/10/23896d1b66292047.png)
 #### 4. Click'Run workflow' and fill in according to the above'parameter description'
 ![](https://i.bmp.ovh/imgs/2021/10/9cb7871267cf2f53.png)
@@ -60,6 +63,6 @@ Can be downloaded at [Release](../../releases)
 -----
 ## Remark
 
-#### TeamWin Recovery Project: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git
+#### TeamWin Recovery Project: https://github.com/minimal-manifest-twrp
 #### OrangeFox Recovery Project: https://gitlab.com/OrangeFox/Manifest.git
 #### SKYHAWK Recovery Project: https://github.com/SHRP/platform_manifest_twrp_omni.git
