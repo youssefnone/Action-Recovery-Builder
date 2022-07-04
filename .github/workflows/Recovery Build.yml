@@ -41,7 +41,6 @@ jobs:
     runs-on: ubuntu-latest
     # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
     steps:
-    - name: Check Out
       # You might want to Checkout your repo first, but not mandatory
       - uses: actions/checkout@v2
       # Cleanup The Actions Workspace Using Custom Composite Run Actions
