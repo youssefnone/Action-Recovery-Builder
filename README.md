@@ -28,12 +28,13 @@ Support OFRP, SHRP, TWRP compilation and production
 | Name | Description | Example |
 | ------------ | -------------------- | ------------ |
 | `MANIFEST_TYPE` | Source Type | omni |
-| `MANIFEST_URL` | Source address| https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git |
+| `MANIFEST_URL` | Source address | https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git |
 | `MANIFEST_BRANCH` | Source branch | twrp-9.0 |
-| `DEVICE_TREE_URL` | Device address| https://github.com/azwhikaru/twrp_device_xiaomi_archytas |
+| `DEVICE_TREE_URL` | Device address | https://github.com/azwhikaru/twrp_device_xiaomi_archytas |
 | `DEVICE_TREE_BRANCH` | Device branch | twrp-9.0 |
 | `DEVICE_PATH` | Device location | device/xiaomi/Archytas |
 | `DEVICE_NAME` | Model name | Archytas |
+| `BUILD_TARGET` | Build Target (boot/recovery/vendorboot) | recovery |
 
 -----
 
