@@ -34,7 +34,7 @@ on:
       BUILD_TARGET:
         description: 'BUILD_TARGET'
         required: true
-        default: 'recoveryimage'
+        default: 'recovery'
 
 jobs:
   build:
@@ -107,12 +107,12 @@ jobs:
         repopick 5405 5540
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng 
         make clean
-        make ${{ github.event.inputs.BUILD_TARGET }} -j$(nproc --all)        
+        make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)        
       
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
-        files: workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery.img
+        files: workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img
         name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
         tag_name: ${{ github.run_id }}
         body: Recovery for ${{ github.event.inputs.DEVICE_NAME }}
