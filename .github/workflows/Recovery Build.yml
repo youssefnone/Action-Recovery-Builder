@@ -105,22 +105,22 @@ jobs:
       uses: pierotofy/set-swap-space@master
       with:
         swap-size-gb: 12
-        
-    - name: Prepare Build Tree
-      run: |
-        PATH=~/bin:$PATH
-        cd ${{ steps.pwd.outputs.pwd }}
-        export ALLOW_MISSING_DEPENDENCIES=true
-        source build/envsetup.sh
 
     - name: Check Build Branch
       if: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
       run: |
+        PATH=~/bin:$PATH
+        cd ${{ steps.pwd.outputs.pwd }}
+        source build/envsetup.sh
         repopick 5405 5540
 
     - name: Building recovery
       run: |
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng 
+        PATH=~/bin:$PATH
+        cd ${{ steps.pwd.outputs.pwd }}
+        source build/envsetup.sh
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
+        export ALLOW_MISSING_DEPENDENCIES=true
         make clean
         make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)        
       
