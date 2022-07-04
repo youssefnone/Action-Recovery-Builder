@@ -113,10 +113,10 @@ jobs:
         export ALLOW_MISSING_DEPENDENCIES=true
         source build/envsetup.sh
 
-    if: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
     - name: Check Build Branch
-      run: |
-        repopick 5405 5540
+      if: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
+          run: |
+            repopick 5405 5540
 
     - name: Building recovery
       run: |
