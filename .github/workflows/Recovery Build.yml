@@ -106,7 +106,7 @@ jobs:
       with:
         swap-size-gb: 12
         
-    - name: Building recovery
+    - name: Prepare Build Tree
       run: |
         PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
