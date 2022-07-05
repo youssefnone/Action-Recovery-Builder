@@ -64,7 +64,7 @@ jobs:
         java-version: '7'
 
     - name: Verify Java Install
-      run: java --version
+      run: java -version
 
     - name: Setup SSH Keys
       uses: webfactory/ssh-agent@v0.5.4
