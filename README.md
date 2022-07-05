@@ -56,20 +56,20 @@ For example, your username is: Fun-114514
 ![](https://i.bmp.ovh/imgs/2021/10/6b6ed9f29e732372.png)
 #### 2. After waiting for the automatic redirection, you will see your own username
 ![](https://i.bmp.ovh/imgs/2021/10/66cfe324c0ebb69b.png)
-
+#### 3. Change the [username and email](https://github.com/CaptainThrowback/Action-Recovery-Builder/blob/main/.github/workflows/Recovery%20Build.yml#L100-L101) in the workflow to reflect your Github credentials
 ## Setting up SSH Keys (optional)
-#### 3. Go to Settings, then select Deploy keys and select "Add deploy key" button.
+#### 4. Go to Settings, then select Deploy keys and select "Add deploy key" button.
 
-#### 4. On your Android device, install [Termux](https://github.com/termux/termux-app/releases)
+#### 5. On your Android device, install [Termux](https://github.com/termux/termux-app/releases)
 
-#### 5. Install openssh in Termux and generate ssh keys. (Do not use passphrase for keys)
+#### 6. Install openssh in Termux and generate ssh keys. (Do not use passphrase for keys)
 NOTE: When creating the deploy key for a repository like git@github.com:owner/repo.git or https://github.com/owner/repo, put that URL into the key comment. (Hint: Try ssh-keygen ... -C "git@github.com:owner/repo.git".)
 owner = your Github username
 ```
 pkg install openssh
 ssh-keygen -t ed25519 -C "git@github.com:owner/Action-Recovery-Builder.git"
 ```
-#### 6. Add the keys to your repo. In Termux, use the following commands:
+#### 7. Add the keys to your repo. In Termux, use the following commands:
 ```
 cd /data/data/com.termux/files/usr/etc/ssh
 cat ssh_host_ed25519_key.pub
@@ -77,7 +77,7 @@ cat ssh_host_ed25519_key.pub
   Select and copy the key then paste in the box for Key.
   You can name it whatever you choose for the title.
 
-#### 7. Now to add your private ssh key. Back in Termux:
+#### 8. Now to add your private ssh key. Back in Termux:
 ```
 cat ssh_host_ed25519_key
 ```
@@ -91,11 +91,11 @@ cat ssh_host_ed25519_key
    Then select Add secret.
 
 ## Building the Recovery
-#### 8. Click'Actions-Recovery Build'
+#### 9. Click'Actions-Recovery Build'
 ![](https://i.bmp.ovh/imgs/2021/10/23896d1b66292047.png)
-#### 9. Click'Run workflow' and fill in according to the above'parameter description'
+#### 10. Click'Run workflow' and fill in according to the above'parameter description'
 ![](https://i.bmp.ovh/imgs/2021/10/9cb7871267cf2f53.png)
-#### 10. After filling in, click'Run workflow' to start running
+#### 11. After filling in, click'Run workflow' to start running
 
 -----
 
