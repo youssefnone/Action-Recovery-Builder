@@ -63,8 +63,8 @@ jobs:
         distribution: 'zulu'
         java-version: '7'
 
-    - name: Test Java Install
-      run: java -cp java HelloWorldApp
+    - name: Verify Java Install
+      run: java --version
 
     - name: Setup SSH Keys
       uses: webfactory/ssh-agent@v0.5.4
