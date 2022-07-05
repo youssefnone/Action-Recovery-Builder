@@ -7,7 +7,7 @@ Support OFRP, SHRP, TWRP compilation and production
 ## Release Notes
 ```
 = 2022/07/05
-- Updated to work with trees back to 5.1
+- Updated to work with trees back to 6.0
 - Add conditionals to include common trees for syncing
 - Update README for SSH keys
 
