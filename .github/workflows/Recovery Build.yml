@@ -61,13 +61,13 @@ jobs:
       id: sdkman
       with:
           candidate: java
-          version: 1.7.0_342-open
+          version: 7.0.222-zulu
 
     - name: Setup OpenJDK
       uses: actions/setup-java@v1
       id: setup-java
       with:
-          java-version: 1.7.0_342
+          java-version: 7.0.222
           jdkFile: ${{ steps.sdkman.outputs.file }}
     - run: java --version
 
