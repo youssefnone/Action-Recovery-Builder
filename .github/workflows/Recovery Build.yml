@@ -26,9 +26,6 @@ on:
       COMMON_TREE_URL:
         description: 'COMMON_TREE_URL (if no common tree, leave blank)'
         required: false
-      COMMON_TREE_BRANCH:
-        description: 'COMMON_TREE_BRANCH (if no common tree, leave blank)'
-        required: false
       COMMON_PATH:
         description: 'COMMON_PATH (if no common tree, leave blank)'
         required: false
@@ -121,12 +118,11 @@ jobs:
     - name: Clone common tree
       if: |
         github.event.inputs.COMMON_TREE_URL != null
-        && github.event.inputs.COMMON_TREE_BRANCH != null
         && github.event.inputs.COMMON_PATH != null
       run: |
         PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
-        git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.COMMON_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
+        git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
 
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
