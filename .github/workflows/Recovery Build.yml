@@ -143,6 +143,8 @@ jobs:
         PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
         sed -i '/^LOCAL_CFLAGS/d' system/core/mkbootimg/Android.mk
+        cd bootable/recovery
+        git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/29/5729/1 && git cherry-pick FETCH_HEAD
 
     - name: Building recovery
       run: |
