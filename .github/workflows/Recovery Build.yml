@@ -129,13 +129,20 @@ jobs:
       with:
         swap-size-gb: 12
 
-    - name: Check Build Branch
+    - name: Check Build Branch - Step 1
       if: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
       run: |
         PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
         source build/envsetup.sh
         repopick 5405 5540
+
+    - name: Check Build Branch - Step 2
+      if: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-5.1' }}
+      run: |
+        PATH=~/bin:$PATH
+        cd ${{ steps.pwd.outputs.pwd }}
+        sed -i '/^LOCAL_CFLAGS/d' system/core/mkbootimg/Android.mk
 
     - name: Building recovery
       run: |
