@@ -6,6 +6,9 @@ Support OFRP, SHRP, TWRP compilation and production
 
 ## Release Notes
 ```
+= 2022/07/06
+- Add support for 5.1 branch
+
 = 2022/07/05
 - Updated to work with trees back to 6.0
 - Add conditionals to include common trees for syncing
