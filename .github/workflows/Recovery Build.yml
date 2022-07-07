@@ -50,12 +50,12 @@ jobs:
     steps:
     - name: Display Run Parameters
       run: |
-        ${{ 'Manifest URL: ' && github.event.inputs.MANIFEST_URL }}
-        ${{ 'Manifest Branch: ' && github.event.inputs.MANIFEST_BRANCH }}
-        ${{ 'Device Tree URL: ' && github.event.inputs.DEVICE_TREE_URL }}
-        ${{ 'Device Tree Branch: ' && github.event.inputs.DEVICE_TREE_BRANCH }}
-        ${{ 'Device Name: ' && github.event.inputs.DEVICE_NAME }}
-        ${{ 'Build Target: ' && github.event.inputs.BUILD_TARGET && '.img' }}
+        'Manifest URL: ' && $github.event.inputs.MANIFEST_URL
+        'Manifest Branch: ' && $github.event.inputs.MANIFEST_BRANCH
+        'Device Tree URL: ' && $github.event.inputs.DEVICE_TREE_URL
+        'Device Tree Branch: ' && $github.event.inputs.DEVICE_TREE_BRANCH
+        'Device Name: ' && $github.event.inputs.DEVICE_NAME }}
+        'Build Target: ' && $github.event.inputs.BUILD_TARGET && '.img'
  
     # You might want to Checkout your repo first, but not mandatory
     - name: Check Out
