@@ -156,7 +156,9 @@ jobs:
       run: |
         PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
-        sed -i '/^LOCAL_CFLAGS/d' system/core/mkbootimg/Android.mk
+        cd system/core
+        git fetch https://gerrit.twrp.me/android_system_core refs/changes/30/5730/1 && git cherry-pick FETCH_HEAD
+        cd ${{ steps.pwd.outputs.pwd }}
         cd bootable/recovery
         git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/29/5729/1 && git cherry-pick FETCH_HEAD
 
