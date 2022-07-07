@@ -48,6 +48,15 @@ jobs:
     runs-on: ubuntu-18.04
     # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
     steps:
+    - name: Display Run Parameters
+      run: |
+        ${{ echo 'Manifest URL: ' && github.event.inputs.MANIFEST_URL }}
+        ${{ echo 'Manifest Branch: ' && github.event.inputs.MANIFEST_BRANCH }}
+        ${{ echo 'Device Tree URL: ' && github.event.inputs.DEVICE_TREE_URL }}
+        ${{ echo 'Device Tree Branch: ' && github.event.inputs.DEVICE_TREE_BRANCH }}
+        ${{ echo 'Device Name: ' && github.event.inputs.DEVICE_NAME }}
+        ${{ echo 'Build Target: ' && github.event.inputs.BUILD_TARGET && echo '.img' }}
+ 
     # You might want to Checkout your repo first, but not mandatory
     - name: Check Out
       uses: actions/checkout@v3
