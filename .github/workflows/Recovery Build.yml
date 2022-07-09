@@ -147,7 +147,7 @@ jobs:
         cd ${{ steps.pwd.outputs.pwd }}
         git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
 
-    - name: Sync Device Dependencies
+    - name: Sync Device Dependencies - AOSP
       if: |
         github.event.inputs.MANIFEST_BRANCH == 'twrp-11'
         || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'
@@ -155,6 +155,16 @@ jobs:
         PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/twrp.dependencies
+        repo sync -j$(nproc --all)
+
+    - name: Sync Device Dependencies - Omni
+      if: |
+        github.event.inputs.MANIFEST_BRANCH != 'twrp-11'
+        && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'
+      run: |
+        PATH=~/bin:$PATH
+        cd ${{ steps.pwd.outputs.pwd }}
+        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/omni.dependencies
         repo sync -j$(nproc --all)
 
     - name: Set Swap Space

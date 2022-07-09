@@ -30,7 +30,7 @@ else
 	echo "<manifest>" >> $manifest_path
 fi
 
-vars=( "remote" "repository" "target_path" "branch" )
+vars=( "remote" "repository" "target_path" "branch" "revision")
 
 for i in ${!vars[@]} ; do
 	value=$(grep "${vars[$i]}" "$file" | cut -d '"' -f4)
@@ -39,7 +39,7 @@ for i in ${!vars[@]} ; do
 	fi
 done
 
-for i in {0..4}; do
+for i in {0..5}; do
 	if [ "${repository_val[$i]}" != "" ] && [ "${target_path_val[$i]}" != "" ]; then
 		target_path="path=\"${target_path_val[$i]}\""
 		repository=" name=\"${repository_val[$i]}\""
@@ -48,8 +48,10 @@ for i in {0..4}; do
 		fi
 		if [ "${branch_val[$i]}" != "" ]; then
 			revision=" revision=\"${branch_val[$i]}\""
+		elif [ "${revision_val[$i]}" != "" ]; then
+			revision=" revision=\"${revision_val[$i]}\""
 		fi
-		echo "  <project $target_path$repository$remote_for_repo$revision />" >> $manifest_path
+		echo "	<project $target_path$repository$remote_for_repo$revision />" >> $manifest_path
 	fi
 done
 
