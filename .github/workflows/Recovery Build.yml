@@ -160,6 +160,7 @@ jobs:
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/omni.dependencies
         repo sync -j$(nproc --all)
       working-directory: ${{ steps.pwd.outputs.pwd }}
+      continue-on-error: true
 
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
