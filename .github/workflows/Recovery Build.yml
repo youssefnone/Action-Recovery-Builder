@@ -126,12 +126,13 @@ jobs:
           
     - name: Repo Sync
       run: |
-        cd workspace
         repo sync -j$(nproc --all) -f --force-sync
+      working-directory: workspace
       
     - name: Clone device tree
       run: |
         git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
+      working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Clone common tree
       if: |
@@ -139,6 +140,7 @@ jobs:
         && github.event.inputs.COMMON_PATH != null
       run: |
         git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
+      working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Sync Device Dependencies - AOSP
       if: |
@@ -147,6 +149,7 @@ jobs:
       run: |
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/twrp.dependencies
         repo sync -j$(nproc --all)
+      working-directory: ${{ steps.pwd.outputs.pwd }}
       continue-on-error: true
 
     - name: Sync Device Dependencies - Omni
@@ -156,29 +159,26 @@ jobs:
       run: |
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/omni.dependencies
         repo sync -j$(nproc --all)
+      working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
         swap-size-gb: 12
 
-    - name: Lunch for target device
-      id: lunch
-      run: |
-        source build/envsetup.sh
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
-      continue-on-error: true
-
     - name: Check Build Branch
       if: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
       run: |
+        source build/envsetup.sh
         repopick 5405 5540
+      working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Building recovery
       run: |
+        source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
-        make clean
-        make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+      working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
