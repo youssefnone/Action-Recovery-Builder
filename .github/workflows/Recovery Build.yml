@@ -112,11 +112,10 @@ jobs:
         mkdir ~/bin
         curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
         chmod a+x ~/bin/repo
-        export PATH=~/bin:$PATH
+        echo "export PATH=~/bin:$PATH">>~/.bashrc
       
     - name: Initialize repo
       run: |
-        PATH=~/bin:$PATH
         mkdir workspace
         cd workspace
         echo "::set-output name=pwd::$(pwd)"
@@ -127,14 +126,12 @@ jobs:
           
     - name: Repo Sync
       run: |
-        PATH=~/bin:$PATH
         cd workspace
         repo sync -j$(nproc --all) -f --force-sync
         ls -al
       
     - name: Clone device tree
       run: |
-        PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
         git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
 
@@ -143,7 +140,6 @@ jobs:
         github.event.inputs.COMMON_TREE_URL != null
         && github.event.inputs.COMMON_PATH != null
       run: |
-        PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
         git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
 
@@ -152,17 +148,16 @@ jobs:
         github.event.inputs.MANIFEST_BRANCH == 'twrp-11'
         || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'
       run: |
-        PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/twrp.dependencies
         repo sync -j$(nproc --all)
+      continue-on-error: true
 
     - name: Sync Device Dependencies - Omni
       if: |
         github.event.inputs.MANIFEST_BRANCH != 'twrp-11'
         && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'
       run: |
-        PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/omni.dependencies
         repo sync -j$(nproc --all)
@@ -175,21 +170,39 @@ jobs:
     - name: Check Build Branch
       if: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
       run: |
-        PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
         source build/envsetup.sh
         repopick 5405 5540
 
-    - name: Building recovery
+    - name: Lunch for target device
+      id: lunch
       run: |
-        PATH=~/bin:$PATH
+        cd ${{ steps.pwd.outputs.pwd }}
+        source build/envsetup.sh
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
+      continue-on-error: true
+
+    - name: Building recovery - lunch failure
+      if: steps.lunch.outcome == 'failure'
+      run: |
         cd ${{ steps.pwd.outputs.pwd }}
         source build/envsetup.sh
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
         export ALLOW_MISSING_DEPENDENCIES=true
         make clean
-        make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)        
-      
+        make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+      continue-on-error: true
+
+    - name: Building recovery - lunch success
+      if: steps.lunch.outcome == 'success'
+      run: |
+        cd ${{ steps.pwd.outputs.pwd }}
+        source build/envsetup.sh
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
+        export ALLOW_MISSING_DEPENDENCIES=true
+        make clean
+        make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
