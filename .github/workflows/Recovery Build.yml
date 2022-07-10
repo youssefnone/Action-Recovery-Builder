@@ -128,11 +128,9 @@ jobs:
       run: |
         cd workspace
         repo sync -j$(nproc --all) -f --force-sync
-        ls -al
       
     - name: Clone device tree
       run: |
-        cd ${{ steps.pwd.outputs.pwd }}
         git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
 
     - name: Clone common tree
@@ -140,7 +138,6 @@ jobs:
         github.event.inputs.COMMON_TREE_URL != null
         && github.event.inputs.COMMON_PATH != null
       run: |
-        cd ${{ steps.pwd.outputs.pwd }}
         git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
 
     - name: Sync Device Dependencies - AOSP
@@ -148,7 +145,6 @@ jobs:
         github.event.inputs.MANIFEST_BRANCH == 'twrp-11'
         || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'
       run: |
-        cd ${{ steps.pwd.outputs.pwd }}
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/twrp.dependencies
         repo sync -j$(nproc --all)
       continue-on-error: true
@@ -158,7 +154,6 @@ jobs:
         github.event.inputs.MANIFEST_BRANCH != 'twrp-11'
         && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'
       run: |
-        cd ${{ steps.pwd.outputs.pwd }}
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/omni.dependencies
         repo sync -j$(nproc --all)
 
@@ -167,38 +162,20 @@ jobs:
       with:
         swap-size-gb: 12
 
-    - name: Check Build Branch
-      if: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
-      run: |
-        cd ${{ steps.pwd.outputs.pwd }}
-        source build/envsetup.sh
-        repopick 5405 5540
-
     - name: Lunch for target device
       id: lunch
       run: |
-        cd ${{ steps.pwd.outputs.pwd }}
         source build/envsetup.sh
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
       continue-on-error: true
 
-    - name: Building recovery - lunch failure
-      if: steps.lunch.outcome == 'failure'
+    - name: Check Build Branch
+      if: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
       run: |
-        cd ${{ steps.pwd.outputs.pwd }}
-        source build/envsetup.sh
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
-        export ALLOW_MISSING_DEPENDENCIES=true
-        make clean
-        make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
-      continue-on-error: true
+        repopick 5405 5540
 
-    - name: Building recovery - lunch success
-      if: steps.lunch.outcome == 'success'
+    - name: Building recovery
       run: |
-        cd ${{ steps.pwd.outputs.pwd }}
-        source build/envsetup.sh
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
         export ALLOW_MISSING_DEPENDENCIES=true
         make clean
         make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
