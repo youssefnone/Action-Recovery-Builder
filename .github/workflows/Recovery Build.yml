@@ -128,22 +128,18 @@ jobs:
         git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
-    - name: Sync Device Dependencies - AOSP
-      if: |
-        github.event.inputs.MANIFEST_BRANCH == 'twrp-11'
-        || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'
-      run: |
-        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/twrp.dependencies
-        repo sync -j$(nproc --all)
-      working-directory: ${{ steps.pwd.outputs.pwd }}
-      continue-on-error: true
+    - uses: haya14busa/action-cond@v1
+      id: buildvendor
+      with:
+        cond: |
+          github.event.inputs.MANIFEST_BRANCH == 'twrp-11'
+          || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'
+        if_true: twrp
+        if_false: omni
 
-    - name: Sync Device Dependencies - Omni
-      if: |
-        github.event.inputs.MANIFEST_BRANCH != 'twrp-11'
-        && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'
+    - name: Sync Device Dependencies
       run: |
-        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/omni.dependencies
+        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildvendor.outputs.value }}.dependencies
         repo sync -j$(nproc --all)
       working-directory: ${{ steps.pwd.outputs.pwd }}
       continue-on-error: true
