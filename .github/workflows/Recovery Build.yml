@@ -125,7 +125,7 @@ jobs:
           
     - name: Repo Sync
       run: |
-        repo sync -j$(nproc --all) -f --force-sync
+        repo sync -j$(nproc --all) --force-sync
       working-directory: workspace
       
     - name: Clone device tree
