@@ -4,8 +4,8 @@ if [ -n "$1" ] && [ -e $1 ]; then
 	file=$1
 else
 	echo " ** Input File : $1 does not exist"
-	echo " ** Please specify the correct dependecies file"
-	echo " ** Usage : bash <path-to-script> <path-to-dependecies-file> [<path-to-local-manifest>]"
+	echo " ** Please specify the correct dependencies file"
+	echo " ** Usage : bash <path-to-script> <path-to-dependencies-file> [<path-to-local-manifest>]"
 	exit 1
 fi
 
@@ -18,7 +18,7 @@ else
 	echo " ** Manifest file to create not specified."
 	echo " ** And .repo folder does not exist in $PWD"
 	echo " ** Either run the script from root of your source or specify a custom path+filename"
-	echo " ** Usage : bash <path-to-script> <path-to-dependecies-file> [<path-to-local-manifest>]"
+	echo " ** Usage : bash <path-to-script> <path-to-dependencies-file> [<path-to-local-manifest>]"
 	exit 1
 fi
 
@@ -51,7 +51,7 @@ for i in {0..5}; do
 		elif [ "${revision_val[$i]}" != "" ]; then
 			revision=" revision=\"${revision_val[$i]}\""
 		fi
-		echo "	<project $target_path$repository$remote_for_repo$revision />" >> $manifest_path
+		echo "  <project $target_path$repository$remote_for_repo$revision />" >> $manifest_path
 	fi
 done
 

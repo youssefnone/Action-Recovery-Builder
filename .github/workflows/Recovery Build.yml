@@ -71,27 +71,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt -y upgrade
-        sudo apt -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev lib32ncurses5-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev
-
-    - name: Install Python 2
-      if: |
-        github.event.inputs.MANIFEST_BRANCH != 'twrp-11'
-        && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'
-      run: |
-        sudo apt -y install python
-        python --version
-        sudo ls -la /usr/bin/python*
-        sudo ls -la /usr/lib/python*
-
-    - name: Setup Python 3
-      if: |
-        github.event.inputs.MANIFEST_BRANCH == 'twrp-11'
-        || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'
-      run: |
-        sudo ln -sf /usr/bin/python3 /usr/bin/python
-        python --version
-        sudo ls -la /usr/bin/python*
-        sudo ls -la /usr/lib/python*
+        sudo apt -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev lib32ncurses5-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev python
 
     - name: Install OpenJDK 7
       if: |
@@ -131,7 +111,7 @@ jobs:
         mkdir ~/bin
         curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
         chmod a+x ~/bin/repo
-        echo "~/bin" >> $GITHUB_PATH
+        sudo ln -sf ~/bin/repo /usr/bin/repo
       
     - name: Initialize repo
       run: |
