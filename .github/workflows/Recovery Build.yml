@@ -75,26 +75,11 @@ jobs:
         sudo apt -y upgrade
         sudo apt -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev lib32ncurses5-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev python
 
-    - name: Install OpenJDK 7
-      if: |
-        github.event.inputs.MANIFEST_BRANCH == 'twrp-5.1'
-        || github.event.inputs.MANIFEST_BRANCH == 'twrp-6.0'
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: '7'
-
-    - name: Install OpenJDK 8
-      if: |
-        github.event.inputs.MANIFEST_BRANCH != 'twrp-5.1'
-        && github.event.inputs.MANIFEST_BRANCH != 'twrp-6.0'
+    - name: Install OpenJDK
       uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
         java-version: '8'
-
-    - name: Verify Java Install
-      run: java -version
 
     - name: Setup SSH Keys
       if: ${{ startsWith(github.event.inputs.MANIFEST_URL, 'git@github.com') }}
@@ -149,7 +134,6 @@ jobs:
         || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'
       run: |
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/twrp.dependencies
-        cat .repo/local_manifests/roomservice.xml
         repo sync -j$(nproc --all)
       working-directory: ${{ steps.pwd.outputs.pwd }}
       continue-on-error: true
@@ -160,7 +144,6 @@ jobs:
         && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'
       run: |
         bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/omni.dependencies
-        cat .repo/local_manifests/roomservice.xml
         repo sync -j$(nproc --all)
       working-directory: ${{ steps.pwd.outputs.pwd }}
       continue-on-error: true
