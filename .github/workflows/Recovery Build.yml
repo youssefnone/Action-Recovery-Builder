@@ -158,6 +158,10 @@ jobs:
     - name: Building recovery
       run: |
         source build/envsetup.sh
+        export OF_DISABLE_MIUI_SPECIFIC_FEATURES=1
+        export OF_FORCE_PREBUILT_KERNEL=1
+        export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
+        export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: ${{ steps.pwd.outputs.pwd }}
