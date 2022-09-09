@@ -163,7 +163,7 @@ jobs:
         export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
         export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && bash device/samsung/m10lte/*sh
         sudo apt install zip && zip shrp.zip out/target/product/m10lte/*zip
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
