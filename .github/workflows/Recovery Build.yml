@@ -6,11 +6,11 @@ on:
       MANIFEST_URL:
         description: 'MANIFEST_URL (if using SSH keys, use git@github.com:repo URL format)'
         required: true
-        default: 'https://github.com/SHRP/platform_manifest_twrp_omni'
+        default: 'https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni'
       MANIFEST_BRANCH:
         description: 'MANIFEST_BRANCH'
         required: true
-        default: 'v3_9.0'
+        default: 'twrp-9.0'
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
@@ -164,7 +164,7 @@ jobs:
         export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && bash device/samsung/m10lte/*sh
-        sudo apt install zip && zip shrp.zip out/target/product/m10lte/*zip
+        sudo apt install zip && zip twrp.zip out/target/product/m10lte/recovery.img
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Upload to Release
