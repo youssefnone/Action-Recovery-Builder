@@ -14,11 +14,11 @@ on:
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
-        default: 'https://github.com/n7105/android_device_samsung_m10lte'
+        default: 'https://github.com/youssefnone/android_device_samsung_m10lte'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
-        default: ''
+        default: 'twrp'
       DEVICE_PATH:
         description: 'DEVICE_PATH'
         required: true
@@ -126,9 +126,6 @@ jobs:
         && github.event.inputs.COMMON_PATH != null
       run: |
         git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
-        sudo rm -rf /workspace/device/samsung/m10lte/dt.img  /workspace/device/samsung/m10lte/kernel
-        sudo curl -L -o /workspace/device/samsung/m10lte/dt.img https://github.com/youssefnone/android_device_samsung_m10lte/blob/twrp/prebuilt/dt.img?raw=true
-        sudo curl -L -o /workspace/device/samsung/m10lte/kernel https://github.com/youssefnone/android_device_samsung_m10lte/blob/twrp/prebuilt/Image?raw=true
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Check Build Tree
