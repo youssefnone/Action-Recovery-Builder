@@ -18,7 +18,7 @@ on:
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
-        default: 'twrp'
+        default: 'ofox'
       DEVICE_PATH:
         description: 'DEVICE_PATH'
         required: true
@@ -163,7 +163,7 @@ jobs:
         export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
         export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && bash device/samsung/m10lte/build_ofox.sh
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && mka recoveryimage -j30
         sudo apt install zip && zip recovery.zip out/target/product/m10lte/*zip
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
