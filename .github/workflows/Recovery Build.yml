@@ -164,13 +164,13 @@ jobs:
         export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && bash device/samsung/m10lte/*sh
-        sudo apt install zip && zip twrp.zip out/target/product/m10lte/recovery.img
+        sudo apt install zip && zip shrp.zip out/target/product/m10lte/*zip
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
-        files: workspace/twrp.zip
+        files: workspace/shrp.zip
         name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
         tag_name: ${{ github.run_id }}
         body: |
