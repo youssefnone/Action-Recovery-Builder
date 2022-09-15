@@ -6,23 +6,23 @@ on:
       MANIFEST_URL:
         description: 'MANIFEST_URL (if using SSH keys, use git@github.com:repo URL format)'
         required: true
-        default: 'https://github.com/PitchBlackRecoveryProject/manifest_pb.git'
+        default: 'https://github.com/SHRP/platform_manifest_twrp_omni'
       MANIFEST_BRANCH:
         description: 'MANIFEST_BRANCH'
         required: true
-        default: 'android-9.0'
+        default: 'v3_9.0'
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
-        default: 'https://github.com/youssefnone/android_device_samsung_m10lte'
+        default: 'https://github.com/youssefnone/android_device_samsung_j7y17lte'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
-        default: 'pbrp'
+        default: 'main'
       DEVICE_PATH:
         description: 'DEVICE_PATH'
         required: true
-        default: 'device/samsung/m10lte'
+        default: 'device/samsung/j7y17lte'
       COMMON_TREE_URL:
         description: 'COMMON_TREE_URL (if no common tree, leave blank)'
         required: false
@@ -32,11 +32,11 @@ on:
       DEVICE_NAME:
         description: 'DEVICE_NAME'
         required: true
-        default: 'm10lte'
+        default: 'j7y17lte'
       MAKEFILE_NAME:
         description: 'MAKEFILE_NAME'
         required: true
-        default: 'omni_m10lte'
+        default: 'omni_j7y17lte'
       BUILD_TARGET:
         description: 'BUILD_TARGET'
         required: true
@@ -163,8 +163,8 @@ jobs:
         export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
         export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && mka recoveryimage -j30
-        sudo apt install zip && zip recovery.zip out/target/product/m10lte/*zip
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && bash device/samsung/j7y17lte/bui*sh
+        sudo apt install zip && zip recovery.zip out/target/product/j7y17lte/*zip
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Upload to Release
