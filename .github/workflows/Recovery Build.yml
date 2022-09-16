@@ -3,6 +3,10 @@ name: Recovery Build
 on:
   workflow_dispatch:
     inputs:
+      TYPE:
+        description: 'TWRP/PBRP/SHRP (you MUST type TWRP not twrp or Twrp)'
+        required: true
+        default: 'SHRP'
       MANIFEST_URL:
         description: 'MANIFEST_URL (if using SSH keys, use git@github.com:repo URL format)'
         required: true
@@ -164,13 +168,17 @@ jobs:
         export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && bash device/samsung/m10lte/build*sh
-        sudo apt install zip && zip recovery.zip out/target/product/m10lte/*zip
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
-        files: workspace/recovery.zip
+        files: |
+            workspace/out/product/${{ github.DEVICE_NAME }}/recovery.img
+            workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE }}*_stable-Unofficial*zip
+            workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE }}-m10lte*UNOFFICIAL*zip
+            workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE }}*zip
+        
         name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
         tag_name: ${{ github.run_id }}
         body: |
