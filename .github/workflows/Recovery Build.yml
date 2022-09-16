@@ -3,10 +3,6 @@ name: Recovery Build
 on:
   workflow_dispatch:
     inputs:
-      TYPE_F:
-        description: 'TWRP/PBRP/SHRP/OrangeFox (you MUST type TWRP/PBRP/SHRP not twrp/pbrp/shrp or Twrp/Pbrp/Shrp; and type OrangeFox not ORANGEFOX)'
-        required: true
-        default: 'SHRP'
       MANIFEST_URL:
         description: 'MANIFEST_URL (if using SSH keys, use git@github.com:repo URL format)'
         required: true
@@ -169,9 +165,9 @@ jobs:
       with:
         files: |
           workspace/out/product/${{ github.DEVICE_NAME }}/recovery.img
-          workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE_F }}*_stable-Unofficial*zip
-          workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE_F }}*UNOFFICIAL*zip
-          workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE_F }}*-Stable*zip
+          workspace/out/product/${{ github.DEVICE_NAME }}/*_stable-Unofficial*.zip
+          workspace/out/product/${{ github.DEVICE_NAME }}/*UNOFFICIAL*.zip
+          workspace/out/product/${{ github.DEVICE_NAME }}/*-Stable*.zip
         name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
         tag_name: ${{ github.run_id }}
         body: |
