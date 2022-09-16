@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       TYPE:
-        description: 'TWRP/PBRP/SHRP (you MUST type TWRP not twrp or Twrp)'
+        description: 'TWRP/PBRP/SHRP/OrangeFox (you MUST type TWRP/PBRP/SHRP not twrp/pbrp/shrp or Twrp/Pbrp/Shrp; and type OrangeFox not ORANGEFOX)'
         required: true
         default: 'SHRP'
       MANIFEST_URL:
@@ -176,9 +176,8 @@ jobs:
         files: |
             workspace/out/product/${{ github.DEVICE_NAME }}/recovery.img
             workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE }}*_stable-Unofficial*zip
-            workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE }}-m10lte*UNOFFICIAL*zip
-            workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE }}*zip
-        
+            workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE }}*UNOFFICIAL*zip
+            workspace/out/product/${{ github.DEVICE_NAME }}/${{ github.TYPE }*-Stable*zip
         name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
         tag_name: ${{ github.run_id }}
         body: |
