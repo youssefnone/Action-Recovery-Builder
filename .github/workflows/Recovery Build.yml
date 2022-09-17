@@ -164,10 +164,10 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          workspace/out/product/${{ github.DEVICE_NAME }}/recovery.img
-          workspace/out/product/${{ github.DEVICE_NAME }}/*_stable-Unofficial*.zip
-          workspace/out/product/${{ github.DEVICE_NAME }}/*UNOFFICIAL*.zip
-          workspace/out/product/${{ github.DEVICE_NAME }}/*-Stable*.zip
+          workspace/out/target/product/${{ github.DEVICE_NAME }}/recovery.img
+          workspace/out/target/product/${{ github.DEVICE_NAME }}/*_stable-Unofficial*.zip
+          workspace/out/target/product/${{ github.DEVICE_NAME }}/*UNOFFICIAL*.zip
+          workspace/out/target/product/${{ github.DEVICE_NAME }}/*-Stable*.zip
         name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
         tag_name: ${{ github.run_id }}
         body: |
