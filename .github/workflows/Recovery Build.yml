@@ -158,7 +158,7 @@ jobs:
         export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make recoveryimage -j30
-        sudo apt install zip && zip recovery.zip workspace/out/target/product/m10lte/*zip
+        sudo apt install zip && zip recovery.zip workspace/out/target/product/j6lte/*zip
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Upload to Release
