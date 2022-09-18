@@ -14,23 +14,23 @@ on:
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
-        default: 'https://github.com/youssefnone/android_device_samsung_m10lte'
+        default: 'https://github.com/youssefnone/android_device_samsung_j6lte'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
-        default: 'shrp'
+        default: 'twrp'
       DEVICE_PATH:
         description: 'DEVICE_PATH'
         required: true
-        default: 'device/samsung/m10lte'   
+        default: 'device/samsung/j6lte'   
       DEVICE_NAME:
         description: 'DEVICE_NAME'
         required: true
-        default: 'm10lte'
+        default: 'j6lte'
       MAKEFILE_NAME:
         description: 'MAKEFILE_NAME'
         required: true
-        default: 'omni_m10lte'
+        default: 'omni_j6lte'
       BUILD_TARGET:
         description: 'BUILD_TARGET'
         required: true
@@ -157,17 +157,14 @@ jobs:
         export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
         export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && bash device/samsung/m10lte/build*sh
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make recoveryimage -j30
+        sudo apt install zip && zip recovery.zip workspace/out/target/product/m10lte/*zip
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
-        files: |
-          /home/runner/work/Action-Recovery-Builder/Action-Recovery-Builder/workspace/out/target/product/${{ github.DEVICE_NAME }}/recovery.img
-          /home/runner/work/Action-Recovery-Builder/Action-Recovery-Builder/workspace/out/target/product/${{ github.DEVICE_NAME }}/*_stable-Unofficial*.zip
-          /home/runner/work/Action-Recovery-Builder/Action-Recovery-Builder/workspace/out/target/product/${{ github.DEVICE_NAME }}/*UNOFFICIAL*.zip
-          /home/runner/work/Action-Recovery-Builder/Action-Recovery-Builder/workspace/out/target/product/${{ github.DEVICE_NAME }}/*-Stable*.zip
+        files: workspace/recovery.zip    
         name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
         tag_name: ${{ github.run_id }}
         body: |
