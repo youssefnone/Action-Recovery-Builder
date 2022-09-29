@@ -6,31 +6,31 @@ on:
       MANIFEST_URL:
         description: 'MANIFEST_URL (if using SSH keys, use git@github.com:repo URL format)'
         required: true
-        default: 'https://github.com/SHRP/platform_manifest_twrp_omni'
+        default: 'https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp'
       MANIFEST_BRANCH:
         description: 'MANIFEST_BRANCH'
         required: true
-        default: 'v3_9.0'
+        default: 'twrp-11'
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
-        default: 'https://github.com/youssefnone/android_device_samsung_m10lte'
+        default: 'https://github.com/youssefnone/android_recovery_samsung_m23xq'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
-        default: 'shrp'
+        default: 'twrp'
       DEVICE_PATH:
         description: 'DEVICE_PATH'
         required: true
-        default: 'device/samsung/m10lte'   
+        default: 'device/samsung/m23xq'   
       DEVICE_NAME:
         description: 'DEVICE_NAME'
         required: true
-        default: 'm10lte'
+        default: 'm23xq'
       MAKEFILE_NAME:
         description: 'MAKEFILE_NAME'
         required: true
-        default: 'omni_m10lte'
+        default: 'twrp_m23xq'
       BUILD_TARGET:
         description: 'BUILD_TARGET'
         required: true
@@ -158,7 +158,7 @@ jobs:
         export LC_ALL="C"
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make recoveryimage -j30
-        sudo apt install zip && zip recovery.zip /home/runner/work/Action-Recovery-Builder/Action-Recovery-Builder/workspace/out/target/product/m10lte/*.zip
+        sudo apt install zip && zip recovery.zip /home/runner/work/Action-Recovery-Builder/Action-Recovery-Builder/workspace/out/target/product/m23xq/*.img
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Upload to Release
@@ -169,7 +169,6 @@ jobs:
         tag_name: ${{ github.run_id }}
         body: |
           Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}
-          Device: ${{ github.event.inputs.DEVICE_NAME }}
-          Target: ${{ github.event.inputs.BUILD_TARGET }}.img
+          Device: ${{ github.event.inputs.DEVICE_NAME }}        
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
